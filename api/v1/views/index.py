@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""
+Creates a route status in the object app_views
+that returns "status": "OK" as a JSON
+"""
+
 from os import getenv
 from flask import Flask
 from api.v1.views import app_views
@@ -8,7 +13,7 @@ import json
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route("/status")
 def get_status():
     response = {"status": "OK"}
     return json.dumps(response)

@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""
+Creates the variable app that is an instance of Flask
+and handles app.teardown_appcontext
+"""
+
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
