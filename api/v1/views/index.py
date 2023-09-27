@@ -13,10 +13,11 @@ import json
 @app_views.route("/status")
 def get_status():
     response = {"status": "OK"}
-    return json.dumps(response)
+    return json.dumps(response), 200, {'Content-Type': 'application/json'}
 
 
 if __name__ == "__main__":
     host = getenv("HBNB_API_HOST", "0.0.0.0")
     port = int(getenv("HBNB_API_PORT", 5000))
     app.run(host=host, port=port, threaded=True)
+    
