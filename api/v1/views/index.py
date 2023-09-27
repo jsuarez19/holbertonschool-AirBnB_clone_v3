@@ -10,9 +10,6 @@ from api.v1.views import app_views
 import json
 
 
-app = Flask(__name__)
-app.register_blueprint(app_views)
-
 @app_views.route("/status")
 def get_status():
     response = {"status": "OK"}
