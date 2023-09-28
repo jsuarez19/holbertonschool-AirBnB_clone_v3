@@ -19,6 +19,7 @@ app.register_blueprint(app_views)
 def teardown_storage(exception):
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found(error):
     response_data = {"error": "Not found"}
