@@ -28,7 +28,7 @@ def get_state(state_id):
 @app_views.route('/states/<st_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(st_id):
     """Returns an empty dictionary with the status code 200"""
-    state = storage.get(State, state_id)
+    state = storage.get(State, st_id)
     if state is None:
         abort(404)
     storage.delete(state)
