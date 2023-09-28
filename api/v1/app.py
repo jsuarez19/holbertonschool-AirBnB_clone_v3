@@ -8,6 +8,7 @@ from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+import json
 
 
 app = Flask(__name__)
@@ -20,8 +21,13 @@ def teardown_storage(exception):
 
 @app.errorhandler(404)
 def not_found(error):
-    response = {"error": "Not found"}
-    return json.dumps(response), 404, {'Content-Type': 'application/json'}
+    response_data = {"error": "Not found"}
+    response = app.response_class(
+        response=json.dumps(response_data),
+        status=404,
+        mimetype='application/json'
+    )
+    return response
 
 if __name__ == "__main__":
     host = getenv("HBNB_API_HOST", "0.0.0.0")
