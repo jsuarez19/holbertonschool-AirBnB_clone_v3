@@ -12,7 +12,7 @@ app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 
 @app_views.route('/states/<state_id>/cities',
-                 methods=['POST'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def list_state_cities(state_id):
     """returns a list of all cities in a state"""
     cities_list = []
