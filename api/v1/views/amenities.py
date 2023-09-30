@@ -72,7 +72,7 @@ def update_amenities(amenity_id):
 
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
-        abort(400)
+        abort(404)
 
     data = request.get_json()
     ignore_keys = ['id', 'created_at', 'updated_at']
