@@ -21,7 +21,6 @@ def list_state_cities(state_id):
     return jsonify(list_cities)
 
 
-
 @app_views.rout('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_list_city(city_id):
     """Retrieves a City object."""
@@ -84,3 +83,8 @@ def update_city(city_id):
         storage.save()
 
     return jsonify(city.to_dict()), 200
+
+
+if __name__ == '__main__':
+    app.register_blueprint(app_views)
+    app.run(host='0.0.0.0', port=5000)
