@@ -25,7 +25,7 @@ def list_state_cities(state_id):
 def get_list_city(city_id):
     """Retrieves a City object."""
 
-    city = storage.get(City, city_id_)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
 
