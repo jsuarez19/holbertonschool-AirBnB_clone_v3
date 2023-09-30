@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-"""create a new view for City objects
-that handles all default RESTFul API actions"""
+"""create a new view for City objects"""
 from api.v1.views import app_views
-from flask import abort, jsonify, make_responce, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.city import City
 from models.state import State
@@ -12,6 +11,7 @@ from models.state import State
                  methods=['GET'], strict_slashes=False)
 def list_state_cities(state_id):
     """returns a list of cities in a state"""
+
     list_cities = []
     state = storage.get(State, state_id)
     if not state:
@@ -21,9 +21,10 @@ def list_state_cities(state_id):
     return jsonify(list_cities)
 
 
-@app_views.rout('/cities/<city_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_list_city(city_id):
     """Retrieves a City object."""
+
     city = storage.get(City, city_id_)
     if not city:
         abort(404)
@@ -34,6 +35,7 @@ def get_list_city(city_id):
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Deletes a City object"""
+
     city = storage.get(City, city_id)
     if not city:
         abort(404)
@@ -48,6 +50,7 @@ def delete_city(city_id):
                  methods=['POST'], strict_slashes=False)
 def create_city(state_id):
     """Creates a City."""
+
     city = storage.get(State, state_id)
     if not city:
         abort(404)
@@ -67,6 +70,7 @@ def create_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """Updates a City object"""
+
     city = storage.get(City, city_id)
     if not city:
         abort(404)
@@ -83,8 +87,3 @@ def update_city(city_id):
         storage.save()
 
     return jsonify(city.to_dict()), 200
-
-
-if __name__ == '__main__':
-    app.register_blueprint(app_views)
-    app.run(host='0.0.0.0', port=5000)
