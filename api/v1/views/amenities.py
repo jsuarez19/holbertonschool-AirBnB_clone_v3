@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 """Create a new view for Amenity objects"""
-from flask import Flask, Blueprint, request, jsonify, abort, make_response
+from flask import Flask, request, jsonify, abort, make_response
 from models import storage
+from . import app_views
 from models.amenity import Amenity
-
-app = Flask(__name__)
-app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
@@ -54,7 +52,8 @@ def create_amenity():
         abort(400, description="Missing name")
 
     new_amenity = Amenity(**data)
-    new_amenity.save()
+    storage.new(new_amenity)
+    storage.save()
 
     return jsonify(new_amenity.to_dict()), 201
 
@@ -78,8 +77,3 @@ def update_amenity(amenity_id):
 
     storage.save()
     return jsonify(amenity.to_dict()), 200
-
-
-if __name__ == '__main__':
-    app.register_blueprint(app_views)
-    app.run(host='0.0.0.0', port=5000)
