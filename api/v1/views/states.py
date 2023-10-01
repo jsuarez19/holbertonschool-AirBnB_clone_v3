@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """new view for State objects that handles all default RESTFul API actions"""
-from flask import  request, jsonify, abort
+from flask import request, jsonify, abort
 from models import storage
 from . import app_views
 from models.state import State
-
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -67,5 +66,3 @@ def update_state(state_id):
 
     state.save()
     return jsonify(state.to_dict()), 200
-
-
