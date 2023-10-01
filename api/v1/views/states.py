@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 """new view for State objects that handles all default RESTFul API actions"""
-from flask import Flask, Blueprint, request, jsonify, abort
+from flask import  request, jsonify, abort
 from models import storage
+from . import app_views
 from models.state import State
 
-
-app = Flask(__name__)
-app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -71,6 +69,3 @@ def update_state(state_id):
     return jsonify(state.to_dict()), 200
 
 
-if __name__ == '__main__':
-    app.register_blueprint(app_views)
-    app.run(host='0.0.0.0', port=5000)
