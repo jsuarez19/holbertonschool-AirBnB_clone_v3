@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Create a new view for Amenity objects
 that handles all default RESTFul API actions"""
-from flask import Flask, Blueprint, request, jsonify, abort
+from flask import Flask, Blueprint, request, jsonify, abort, make_response
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -57,7 +57,7 @@ def create_amenity():
     new_amenity = Amenity(**data)
     new_amenity.save()
 
-    return make_responce(jsonify(new_amenity.to_dict()), 201)
+    return make_response(jsonify(new_amenity.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -66,7 +66,7 @@ def update_amenities(amenity_id):
     """Updates a Amenity object"""
 
     if not request.get_json():
-        abort(400, description='NOt a JSON')
+        abort(400, description='Not a JSON')
 
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
