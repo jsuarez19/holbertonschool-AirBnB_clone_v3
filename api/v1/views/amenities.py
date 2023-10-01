@@ -11,11 +11,9 @@ from models.amenity import Amenity
 def list_get_amenities():
     """Retrieves the list of all Amenity objects"""
 
-    obj_amenity = []
-    for obj in storage.all(Amenity).values():
-        obj_amenity.append(obj.to_dict())
-
-    return jsonify(obj_amenity)
+    all_amenities = storage.all(Amenity).values()
+    list_amenities = [amenity.to_dict() for amenity in all_amenities]
+    return jsonify(list_amenities)
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -24,7 +22,7 @@ def obj_amenity(amenity_id):
     """Retrieves a Amenity object."""
 
     amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    if not amenity:
         abort(404)
 
     return jsonify(amenity.to_dict())
@@ -36,13 +34,13 @@ def delete_amenity(amenity_id):
     """Deletes a Amenity object."""
 
     obj_amenity = storage.get(Amenity, amenity_id)
-    if obj_amenity is None:
+    if not obj_amenity:
         abort(404)
 
     storage.delete(obj_amenity)
     storage.save()
 
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -50,16 +48,16 @@ def create_amenity():
     """Creates a Amenity"""
 
     data = request.get_json()
-    if data is None:
-        return jsonify({"error": "Not a JSON"}), 400
+    if not data:
+        abort(400, description="Not a JSON")
 
     if "name" not in data:
-        return jsonify({"error": "Missing name"}), 400
+        abort(400, description="Missing name")
 
     new_amenity = Amenity(**data)
     new_amenity.save()
 
-    return jsonify(new_amenity.to_dict()), 201
+    return make_responce(jsonify(new_amenity.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -67,18 +65,18 @@ def create_amenity():
 def update_amenities(amenity_id):
     """Updates a Amenity object"""
 
-    if not request.is_json:
+    if not request.get_json():
         abort(400, description='NOt a JSON')
 
     amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    if not amenity:
         abort(404)
 
     data = request.get_json()
     ignore_keys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in ignore_keys:
-            setattr(Amenity, key, value)
+            setattr(amenity, key, value)
 
-    amenity.save()
+    storage.save()
     return jsonify(amenity.to_dict()), 200
