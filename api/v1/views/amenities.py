@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Create a new view for Amenity objects"""
-from flask import Flask, request, jsonify, abort, make_response
+from flask import request, jsonify, abort
 from models import storage
 from . import app_views
 from models.amenity import Amenity
